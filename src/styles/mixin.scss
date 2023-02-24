@@ -21,3 +21,18 @@
   align-items: center;
   justify-content: center;
 }
+
+@mixin row-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin line-clamp($line) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}

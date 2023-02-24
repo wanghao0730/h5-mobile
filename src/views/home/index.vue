@@ -1,89 +1,182 @@
 <template>
-  <header class="header">
-    <img src="https://cdn.jsdelivr.net/gh/fonghehe/picture/vue-h5-template/logo.png" /><span> {{ $t('title') }}</span>
-  </header>
-  <div class="intro-header">
-    <div>{{ $t('introduction') }}</div>
-    <a href="https://github.com/sunniejs/vue-h5-template.git">
-      <Github />
-    </a>
-  </div>
-  <nut-cell-group :title="$t('home.support')" class="supportList">
-    <nut-cell v-for="(item, index) in cellList" :key="index" :title="item">
-      <template #icon>
-        <Check />
+  <header class="search-value">
+    <nut-searchbar placeholder="搜索更多" disabled @click-input="handleSearchClick">
+      <template #leftin>
+        <Search2 />
       </template>
-    </nut-cell>
-  </nut-cell-group>
-  <nut-cell-group :title="$t('home.cssMultiLanguage')" class="supportList">
-    <nut-cell>
-      <div :class="['btn-confirm', locale]"></div>
-    </nut-cell>
-  </nut-cell-group>
-  <div class="btn-wrap">
-    <nut-button shape="square" size="small" type="default" @click="changeLang('zh-cn')">
-      {{ $t('language.zh') }}
-    </nut-button>
-    <nut-button shape="square" size="small" type="default" @click="changeLang('en-us')">
-      {{ $t('language.en') }}
-    </nut-button>
-  </div>
-  {{ getUserInfo }}
+    </nut-searchbar>
+  </header>
+  <section class="header-swiper">
+    <nut-swiper :init-page="swiperList.page" :pagination-visible="true" pagination-color="#426543" auto-play="2000" touchable>
+      <nut-swiper-item v-for="(item, index) in swiperList.list" :key="index">
+        <img :src="item" />
+      </nut-swiper-item>
+    </nut-swiper>
+  </section>
+  <!-- 活动功能 -->
+  <section class="fun-wrap">
+    <div class="fun-list">
+      <div class="fun-activity" v-for="(item, index) in activityList" :key="index">
+        <component :is="item.component" width="30px" height="30px" :color="item.color" />
+        <span class="act-name">{{ item.name }}</span>
+      </div>
+    </div>
+  </section>
+  <!-- 商品列表 -->
+  <section class="store-wrap">
+    <div class="store-title"> 商品列表 </div>
+    <div class="feed">
+      <div class="feed-item" v-for="i in 6" :key="i">
+        <!-- 品牌图片 -->
+        <div class="brand-img">
+          <nut-image src="https://dcdn.it120.cc/2023/02/24/b85e466d-b1d2-4b2e-b12c-a98925ef2f63.jpg" />
+        </div>
+        <!-- 品牌内容 -->
+        <div class="brand">
+          <div class="brand-title"> 实物商品（购买时需填写收货地址，支持售后实物商品（购买时需填写收货地址，支持售后））</div>
+          <div class="brand-price">
+            <div class="price">
+              <div class="price-current">
+                <span class="price-symbol">￥</span>
+                <span class="price-real">50</span>
+              </div></div
+            >
+            <div class="buy">购买</div>
+          </div></div
+        >
+      </div>
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup name="HomePage">
-  import { computed } from 'vue';
-  import { useUserStore } from '/@/store/modules/user';
-  import { setLang } from '/@/i18n';
-  import { useI18n } from 'vue-i18n';
-  import { Github, Check } from '@nutui/icons-vue';
-
-  const { locale } = useI18n();
-
-  let cellList = ['vue3', 'vite', 'vue-router', 'axios', 'Pinia', 'vue-i18n', 'postcss-px-to-viewport', 'varlet / vant / nutUI', 'eruda'];
-  const userStore = useUserStore();
-  const getUserInfo = computed(() => {
-    const { name = '' } = userStore.getUserInfo || {};
-    return name;
+  import { Search2, Jimi40, Footprint, Order, StarN, Scan, Message, People } from '@nutui/icons-vue';
+  interface ISwiper {
+    page: number;
+    list: string[];
+  }
+  const swiperList = reactive<ISwiper>({
+    page: 0,
+    list: [
+      'https://storage.360buyimg.com/jdc-article/NutUItaro34.jpg',
+      'https://storage.360buyimg.com/jdc-article/NutUItaro2.jpg',
+      'https://storage.360buyimg.com/jdc-article/welcomenutui.jpg',
+      'https://storage.360buyimg.com/jdc-article/fristfabu.jpg',
+    ],
   });
 
-  const changeLang = (type) => {
-    setLang(type);
+  const activityList = reactive([
+    { name: '秒杀活动', component: Jimi40, color: '#913175' },
+    { name: '每日拼团', component: Footprint, color: '#635985' },
+    { name: '领卷中心', component: Order, color: '#609EA2' },
+    { name: '积分商品', component: StarN, color: '#F2CD5C' },
+    { name: '每日签到', component: Scan, color: '#B9F3E4' },
+    { name: '生活家电', component: People, color: '#D61355' },
+    { name: '手机数码', component: Message, color: '#F94A29' },
+    { name: '砍价活动', component: Jimi40, color: '#F0A04B' },
+  ]);
+  //处理搜索内容的点击切换
+  const handleSearchClick = () => {
+    console.log('点击切换');
   };
 </script>
-<style lang="scss">
-  .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    font-size: 40px;
-    img {
-      width: 90px;
-      height: 90px;
+<style lang="scss" scoped>
+  .search-value {
+    .nut-searchbar {
+      padding: 25px 0;
     }
   }
-
-  .intro-header {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-  }
-
-  .supportList {
-    margin: 0 16px;
-
-    .nut-cell-group__title {
-      margin-top: 30px;
+  .header-swiper {
+    .nut-swiper-item {
+      line-height: 300px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
-
-  .btn-wrap {
-    margin: 20px;
+  .fun-wrap {
+    margin-top: 35px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 15px;
+    .fun-list {
+      display: flex;
+      flex-wrap: wrap;
+      .fun-activity {
+        box-sizing: border-box;
+        padding: 25px;
+        @include center;
+        flex: 0 0 25%;
+        .act-name {
+          display: inline-block;
+          margin-top: 5px;
+          font-size: 25px;
+        }
+      }
+    }
   }
-  .btn-confirm {
-    @include main-lang-bg(302px, 82px, '/@/assets/button', 'confirm.png');
+  // 商品列表
+  .store-wrap {
+    margin-top: 35px;
+    .store-title {
+      @include row-center;
+      font-weight: 700;
+      font-size: 35px;
+      letter-spacing: 4px;
+      position: relative;
+    }
+    .feed {
+      padding: 15px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .feed-item {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 48%;
+        padding: 10px 20px;
+        border-radius: 10px;
+        background-color: #ffffff;
+        margin: 10px 5px;
+        .brand-img > .nut-image > .nut-img {
+          border-radius: 15px;
+        }
+      }
+      .brand {
+        padding: 10px 10px;
+        .brand-title {
+          box-sizing: border-box;
+          font-size: 28px;
+          @include line-clamp(2);
+        }
+        .brand-price {
+          margin: 15px 0 0 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .price-symbol {
+            color: var(--darkreader-text--vice-text-color);
+            margin-right: 5px;
+          }
+          .price-real {
+            font-size: 35px;
+            color: var(--darkreader-text--vice-text-color);
+          }
+          .buy {
+            border: 1px solid var(--darkreader-text--vice-text-color);
+            width: 60px;
+            height: 40px;
+            padding: 3px 10px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 5px;
+            color: var(--darkreader-text--vice-text-color);
+            font-size: 20px;
+          }
+        }
+      }
+    }
   }
 </style>
