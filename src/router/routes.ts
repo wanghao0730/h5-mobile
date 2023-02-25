@@ -13,10 +13,18 @@ export const routes = [
         },
       },
       {
-        path: 'list',
-        component: () => import('/@/views/list/index.vue'),
+        path: 'category',
+        component: () => import('/@/views/category/index.vue'),
         meta: {
-          title: 'tabbar.list',
+          title: 'tabbar.category',
+          keepAlive: false,
+        },
+      },
+      {
+        path: 'car',
+        component: () => import('/@/views/car/index.vue'),
+        meta: {
+          title: 'tabbar.car',
           keepAlive: true,
         },
       },
@@ -26,23 +34,6 @@ export const routes = [
         meta: {
           title: 'tabbar.member',
           keepAlive: true,
-        },
-      },
-      {
-        path: 'demo',
-        component: () => import('/@/views/demo/index.vue'),
-        meta: {
-          title: 'tabbar.demo',
-          keepAlive: true,
-        },
-      },
-      {
-        name: 'listDetails',
-        path: '/details',
-        component: () => import('/@/views/list/details/index.vue'),
-        meta: {
-          title: 'list.details',
-          border: false,
         },
       },
     ],

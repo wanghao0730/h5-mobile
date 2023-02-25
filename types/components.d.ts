@@ -12,10 +12,7 @@ declare module '@vue/runtime-core' {
     NutAvatar: typeof import('@nutui/nutui')['Avatar']
     NutButton: typeof import('@nutui/nutui')['Button']
     NutCard: typeof import('@nutui/nutui')['Card']
-    NutCell: typeof import('@nutui/nutui')['Cell']
-    NutCellGroup: typeof import('@nutui/nutui')['CellGroup']
-    NutForm: typeof import('@nutui/nutui')['Form']
-    NutFormItem: typeof import('@nutui/nutui')['FormItem']
+    NutConfigProvider: typeof import('@nutui/nutui')['ConfigProvider']
     NutGrid: typeof import('@nutui/nutui')['Grid']
     NutGridItem: typeof import('@nutui/nutui')['GridItem']
     NutImage: typeof import('@nutui/nutui')['Image']
@@ -26,10 +23,5 @@ declare module '@vue/runtime-core' {
     NutTabbarItem: typeof import('@nutui/nutui')['TabbarItem']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    VanButton: typeof import('vant/es')['Button']
-    VanImage: typeof import('vant/es')['Image']
-    VanNavBar: typeof import('vant/es')['NavBar']
-    VarButton: typeof import('@varlet/ui')['_ButtonComponent']
-    VarSpace: typeof import('@varlet/ui')['_SpaceComponent']
   }
 }

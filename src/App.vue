@@ -11,4 +11,8 @@
     /* color: #2c3e50; */
     background: #f7f8fa;
   }
+  html,
+  body {
+    height: auto;
+  }
 </style>

@@ -1,5 +1,4 @@
 import { MockMethod, Recordable } from 'vite-plugin-mock';
-
 interface response {
   body: Recordable;
   query: Recordable;

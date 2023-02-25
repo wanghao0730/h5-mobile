@@ -8,20 +8,20 @@
     </RouterView>
     <RouterView v-if="!$route.meta.keepAlive" :key="$route.path" />
   </div>
-  <nut-tabbar unactive-color="#364636" active-color="#1989fa" bottom v-model="activeTab" v-show="tabbarVisible" @tab-switch="tabSwitch">
+  <!-- unactive-color="#364636" active-color="#1989fa" -->
+  <nut-tabbar class="tabbar-wrap" v-bind="navbarColor" bottom v-model="activeTab" v-show="tabbarVisible" @tab-switch="tabSwitch">
     <nut-tabbar-item v-for="item in tabItem" :key="item.key" :tab-title="$t(`tabbar.${item.key}`)" :icon="item.icon" />
   </nut-tabbar>
 </template>
 
 <script lang="ts" setup name="BasicLayoutPage">
   import { useRouter } from 'vue-router';
-  import { Home, Horizontal, My, Location } from '@nutui/icons-vue';
-
+  import { Home, My, Category, Cart } from '@nutui/icons-vue';
   const tabItem = [
     { key: 'home', icon: Home },
-    { key: 'list', icon: Horizontal },
+    { key: 'category', icon: Category },
+    { key: 'car', icon: Cart },
     { key: 'member', icon: My },
-    { key: 'demo', icon: Location },
   ];
 
   const router = useRouter();
@@ -32,30 +32,42 @@
 
   const showBorder = ref(true);
 
+  //控制navbar的颜色
+  const navbarColor = ref({
+    unactiveColor: '#364636', //非选中情况下的颜色
+    activeColor: '#ffaa00', //选中时候的颜色
+  });
   watch(
     () => router,
     () => {
+      //判断页面的路由是否当前tabbar的路径
       const judgeRoute = tabItem.some((item) => item.key === router.currentRoute.value.path.replace('/', ''));
       activeTab.value = tabItem.findIndex((item) => item.key === router.currentRoute.value.path.replace('/', ''));
+      // 是否主页面如果不是则控制是否显示tabbar
       tabbarVisible.value = judgeRoute;
       showBorder.value = judgeRoute;
     },
     { deep: true, immediate: true },
   );
-
+  /**
+   * 点击tabbar的页面跳转
+   * @param _item
+   * @param index
+   */
   const tabSwitch = (_item, index) => {
+    console.log({ _item, index });
     switch (index) {
       case 0:
         router.push('/home');
         break;
       case 1:
-        router.push('/list');
+        router.push('/category');
         break;
       case 2:
-        router.push('/member');
+        router.push('/car');
         break;
       case 3:
-        router.push('/demo');
+        router.push('/member');
         break;
     }
     activeTab.value = index;
@@ -70,16 +82,12 @@
   .nut-navbar {
     margin-bottom: 0;
   }
-
   .main-page {
     box-sizing: border-box;
-    height: calc(100vh - 92px);
-    overflow-y: scroll;
-    overflow-x: hidden;
+    height: 100%;
   }
 
   .tabbar {
-    height: calc(100vh - 92px);
     padding-bottom: 100px;
   }
 
@@ -87,4 +95,27 @@
     padding-left: 30px;
     padding-right: 30px;
   }
+  .tabbar-wrap {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  // .main-page {
+  //   box-sizing: border-box;
+  //   height: calc(100vh - 92px);
+  //   overflow-y: scroll;
+  //   overflow-x: hidden;
+  // }
+
+  // .tabbar {
+  //   height: calc(100vh - 92px);
+  //   padding-bottom: 100px;
+  // }
+
+  // .border {
+  //   padding-left: 30px;
+  //   padding-right: 30px;
+  // }
 </style>
